@@ -1,0 +1,31 @@
+name: Telegram Poll
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+    - cron: '0 8 * * 5'
+  workflow_dispatch:
+
+jobs:
+  send-poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install requests
+
+      - name: Send poll
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          DAY=$(date -u +%u)
+          if [ "$DAY" = "1" ]; then
+            python send_poll.py monday
+          elif [ "$DAY" = "5" ]; then
+            python send_poll.py friday
+          fi
