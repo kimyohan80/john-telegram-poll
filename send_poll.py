@@ -35,6 +35,7 @@ response = requests.post(
     f"https://api.telegram.org/bot{TOKEN}/sendPoll",
     json={
         "chat_id": CHAT_ID,
+        "message_thread_id": 3,
         "question": poll["question"],
         "options": [{"text": option} for option in poll["options"]],
         "is_anonymous": False,
