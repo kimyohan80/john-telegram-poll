@@ -24,10 +24,10 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           DAY=$(date -u +%u)
-if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
-  DAY=1
-fi
-if [ "$DAY" = "1" ]; then
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            DAY=1
+          fi
+          if [ "$DAY" = "1" ]; then
             python send_poll.py monday
           elif [ "$DAY" = "5" ]; then
             python send_poll.py friday
