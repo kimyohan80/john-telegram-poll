@@ -36,12 +36,16 @@ response = requests.post(
     json={
         "chat_id": CHAT_ID,
         "question": poll["question"],
-        "options": poll["options"],
+        "options": [{"text": option} for option in poll["options
         "is_anonymous": False,
         "allows_multiple_answers": False,
     },
     timeout=30,
 )
+
+
+if not response.ok:
+    print("Telegram error:", response.status_code, response.text)
 
 response.raise_for_status()
 print("Poll sent successfully.")
